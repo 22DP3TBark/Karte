@@ -167,29 +167,3 @@ var LKS92WGS84 = (function()
 })();
 
 
-// Assuming your JSON data is in a file named 'locations.json'
-fetch('geomap.json')
-  .then(response => response.json())
-  .then(data => {
-    // Create a map
-    const map = L.map('map').setView([56.9462, 24.1051], 13); // Adjust initial view as needed
-
-    // Add a tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map); 1 
-
-    // Iterate through the GeoJSON features and add markers
-    data.features.forEach(feature => {
-      const { coordinates, properties } = feature.geometry;
-      const { PLACENAME, PLACESUBTY } = properties;
-
-      // Create a marker
-      L.marker(coordinates)
-        .bindPopup(`
-          <h3>${PLACENAME}</h3>
-          <p>Sub-type: ${PLACESUBTY}</p>
-        `)
-        .addTo(map);
-    });
-  });
